@@ -17,7 +17,20 @@ const __dirname = path.dirname(__filename);
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/game', express.static(path.join(__dirname, 'public/game.html')));
+
+// Valid routes
+app.get('/game', (req, res) => {
+	res.status(200).sendFile(path.join(__dirname, 'public', 'game.html'));
+});
+
+app.get('/', (req, res) => {
+	res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// 404 handler should come last
+app.use((req, res) => {
+	res.status(404).sendFile(path.join(__dirname, 'public', 'notFound.html'));
+});
 
 // Create HTTP server and setup WebSocket
 const server = http.createServer(app);

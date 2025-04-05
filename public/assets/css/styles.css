@@ -1,4 +1,121 @@
-/* Styles CSS */
+/* Variables */
+:root {
+    --text-color: #333;
+}
+
+body.dark {
+    --text-color: #eee;
+}
+
+/* DOM Selectors */
 * {
-    background-color: lightblue;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+p {
+    color: var(--text-color);
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+/* Classes */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.floating-symbol {
+    position: fixed;
+    opacity: 0.08;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+    z-index: -1;
+}
+
+.floating-symbol.up {
+    animation: floatUp 20s linear;
+}
+
+.floating-symbol.down {
+    animation: floatDown 25s linear;
+}
+
+/* IDs */
+#theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    z-index: 1000;
+    transition: color 0.3s ease;
+    width: min-content;
+    margin: 0;
+    padding: 0;
+}
+
+/* Pseudo Classes */
+button:hover {
+    filter: brightness(1.1);
+}
+
+/* Media Queries */
+@media (max-width: 500px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-120vh) rotate(360deg);
+    }
+}
+
+@keyframes floatDown {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(120vh) rotate(-360deg);
+    }
 }

@@ -1,0 +1,47 @@
+/* Variables */
+:root {
+    --bg-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    --card-bg: white;
+}
+
+body.dark {
+    --bg-gradient: linear-gradient(135deg, #2c3e50 0%, #4b6cb7 100%);
+    --card-bg: #333;
+}
+
+/* DOM Selectors */
+body {
+    margin: 0;
+    background: var(--bg-gradient);
+    padding: 1rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    border: 2px solid #ddd;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Classes */
+.container {
+    background: var(--card-bg);
+    border-radius: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.join-section {
+    margin-top: 4rem;
+}
+
+/* IDs */
+#join-room {
+    background: #4D96FF;
+}
+
+#create-room {
+    background-color: #1bc71b;
+}
