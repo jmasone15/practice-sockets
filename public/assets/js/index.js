@@ -39,11 +39,11 @@ function createFloatingSymbols(count = 50) {
 	}
 }
 
-createFloatingSymbols();
+// createFloatingSymbols();
 
-setInterval(() => {
-	createFloatingSymbols(10); // Add 5 more every few seconds
-}, 5000);
+// setInterval(() => {
+// 	createFloatingSymbols(10); // Add 5 more every few seconds
+// }, 5000);
 
 const toggleBtn = document.getElementById('theme-toggle');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

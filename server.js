@@ -1,6 +1,6 @@
 // Import external dependencies
 import express from 'express';
-import setupWebSocket from './socketHandler.js';
+import router, { setupWebSocket } from './socketHandler.js';
 
 // Import required Node packages
 import { fileURLToPath } from 'url';
@@ -19,10 +19,10 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Valid routes
-app.get('/game', (req, res) => {
+app.use('/room', router);
+app.get(/^\/game\/[A-Za-z0-9_-]{21}$/, (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, 'public', 'game.html'));
 });
-
 app.get('/', (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
 });

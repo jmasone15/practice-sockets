@@ -1,18 +1,40 @@
 import { WebSocketServer } from 'ws';
+import { Router } from 'express';
+import { nanoid } from 'nanoid';
 
-const setupWebSocket = (server) => {
+const rooms = new Map();
+const router = new Router();
+
+router.get('/create-room', (req, res) => {
+	let roomCode = nanoid();
+	let generateCounter = 0;
+
+	while (rooms.has(roomCode)) {
+		if (generateCounter < 10) {
+			res.status(500).send('Error generating room.');
+			return;
+		}
+
+		roomCode = nanoid();
+		generateCounter++;
+	}
+
+	res.status(200).send(roomCode);
+});
+
+export const setupWebSocket = (server) => {
 	// Create WebSocket server off of HTTP server
 	const wss = new WebSocketServer({ server });
 
 	// WebSocket connection logic
 	wss.on('connection', (socket) => {
+		let currentRoom = null;
+
 		// Connection
 		console.log('✅ New WebSocket connection');
-		socket.send('Hello from WebSocket server!');
 
-		// Message event
-		socket.on('message', (message) => {
-			console.log(`📨 Received: ${message}`);
+		socket.on('message', (data) => {
+			console.log(data.toString());
 		});
 
 		// Disconnection
@@ -22,4 +44,4 @@ const setupWebSocket = (server) => {
 	});
 };
 
-export default setupWebSocket;
+export default router;
