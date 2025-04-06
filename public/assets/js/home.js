@@ -19,7 +19,6 @@ createRoomBtn.addEventListener('click', async (e) => {
 joinRoomBtn.addEventListener('click', (e) => {
 	e.preventDefault();
 
-	console.log(roomCodeInput.value);
 	if (!roomCodeInput.value) {
 		return;
 	}

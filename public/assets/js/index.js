@@ -50,8 +50,8 @@ const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 // Load preferred theme
 if (
-	localStorage.getItem('theme') === 'dark' ||
-	(!localStorage.getItem('theme') && prefersDark)
+	localStorage.getItem('ttt-theme') === 'dark' ||
+	(!localStorage.getItem('ttt-theme') && prefersDark)
 ) {
 	document.body.classList.add('dark');
 	toggleBtn.textContent = '🌚';
@@ -64,5 +64,5 @@ toggleBtn.addEventListener('click', () => {
 	const isDark = document.body.classList.contains('dark');
 
 	toggleBtn.textContent = isDark ? '🌚' : '🌞';
-	localStorage.setItem('theme', isDark ? 'dark' : 'light');
+	localStorage.setItem('ttt-theme', isDark ? 'dark' : 'light');
 });

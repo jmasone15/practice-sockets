@@ -4,6 +4,7 @@
     --cell-bg: white;
     --text-color: #333;
     --glow-color: #4D96FF;
+    --green-text-color: #15a746;
 }
 
 body.dark {
@@ -11,6 +12,7 @@ body.dark {
     --cell-bg: #333;
     --text-color: #eee;
     --glow-color: #FF6B6B;
+    --green-text-color: #3ac569;
 }
 
 /* DOM Selectors */
@@ -25,11 +27,45 @@ body {
     overflow: hidden;
 }
 
-/* Classes */
-.turn-indicator {
+.modal h2 {
     margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+.modal input {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: none;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    outline: none;
+    background: #f0f0f0;
+}
+
+body.dark .modal input {
+    background: #444;
+    color: #fff;
+}
+
+.modal button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    background: var(--glow-color);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/* Classes */
+.green-text {
+    color: var(--green-text-color);
+}
+
+.red-text {
+    color: red;
 }
 
 .board {
@@ -100,8 +136,39 @@ body {
     background: red;
     pointer-events: none;
     opacity: 0;
-    z-index: 9999;
+    z-index: 100;
     animation: particle-burst 700ms ease-out forwards;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.4s ease;
+}
+
+.modal {
+    background: var(--cell-bg);
+    color: var(--text-color);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeInScale 0.4s ease;
+    width: 90%;
+    max-width: 400px;
+}
+
+.modal-overlay.fade-out {
+    animation: fadeOut 0.4s forwards;
 }
 
 /* IDs */
@@ -110,10 +177,20 @@ body {
     width: 50%;
 }
 
+#turn-indicator {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: none;
+}
+
 /* Pseudo Classes */
 .cell-front:hover {
     background-color: #eaeaea;
     transition: background-color 0.2s ease;
+}
+
+.modal button:hover {
+    transform: scale(1.05);
 }
 
 /* Animations */
@@ -156,5 +233,24 @@ body {
     100% {
         transform: translate(var(--dx), var(--dy)) scale(0.5);
         opacity: 0;
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(0.95);
     }
 }
