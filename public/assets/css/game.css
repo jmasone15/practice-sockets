@@ -126,10 +126,40 @@ body.dark .modal input {
     animation: flipBounce 0.6s ease forwards;
 }
 
-.cell.winning {
-    background-color: #d1ffd6;
-    border-color: #3ac569;
-    animation: glowPulse 1s ease-in-out infinite;
+.cell-back.winning {
+    background-color: #85ff66;
+    border-color: #26b103;
+    color: #222;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 255, 13, 0.8), 0 0 30px rgba(0, 255, 21, 0.4);
+    animation: pulse-glow 1.2s ease-in-out infinite;
+}
+
+body.dark .cell-back.winning {
+    background-color: #00ffc8;
+    border-color: #ccc;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 255, 200, 0.8), 0 0 30px rgba(0, 255, 200, 0.4);
+    animation: pulse-glow-winning-dark 1.2s ease-in-out infinite;
+}
+
+.cell-back.losing {
+    background-color: #ff6666;
+    border-color: #940000;
+    color: #222;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
+    animation: pulse-glow-negative 1.2s ease-in-out infinite;
+}
+
+body.dark .cell-back.losing {
+    background-color: #ff6666;
+    border-color: #ccc;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
+    animation: pulse-glow-negative 1.2s ease-in-out infinite;
 }
 
 .particle {
@@ -141,7 +171,7 @@ body.dark .modal input {
     pointer-events: none;
     opacity: 0;
     z-index: 100;
-    animation: particle-burst 700ms ease-out forwards;
+    animation: particle-burst 1500ms ease-out forwards;
 }
 
 .modal-overlay {
@@ -175,6 +205,11 @@ body.dark .modal input {
     animation: fadeOut 0.4s forwards;
 }
 
+.message {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
 /* IDs */
 #reset-button {
     background-color: #555;
@@ -182,8 +217,6 @@ body.dark .modal input {
 }
 
 #turn-indicator {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
     display: none;
 }
 
@@ -216,15 +249,45 @@ body.dark .modal input {
     }
 }
 
-@keyframes glowPulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 8px #3ac569;
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 15px rgba(0, 255, 13, 0.8);
     }
 
     50% {
-        box-shadow: 0 0 20px #3ac569;
+        box-shadow: 0 0 25px rgba(0, 255, 13, 1);
+    }
+
+    100% {
+        box-shadow: 0 0 15px rgba(0, 255, 13, 0.8);
+    }
+}
+
+@keyframes pulse-glow-winning-dark {
+    0% {
+        box-shadow: 0 0 15px rgba(0, 255, 200, 0.8);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(0, 255, 200, 1);
+    }
+
+    100% {
+        box-shadow: 0 0 15px rgba(0, 255, 200, 0.8);
+    }
+}
+
+@keyframes pulse-glow-negative {
+    0% {
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(255, 0, 0, 1);
+    }
+
+    100% {
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
     }
 }
 

@@ -72,7 +72,9 @@ export const setupWebSocket = (server) => {
 				players.push({
 					socket,
 					symbol,
-					name: payload.name
+					name: payload.name,
+					ready: false,
+					winner: false
 				});
 
 				// Log and alert user they joined successfully
@@ -112,6 +114,63 @@ export const setupWebSocket = (server) => {
 				});
 
 				return;
+			}
+
+			// Game Over Event
+			if (type === 'game-over') {
+				const room = rooms.get(currentRoomId);
+
+				room.forEach((player) => {
+					if (player.socket !== socket) {
+						player.socket.send(
+							JSON.stringify({
+								type,
+								payload
+							})
+						);
+					} else {
+						if (payload.result === 'loss') {
+							player.winner = true;
+						}
+					}
+				});
+			}
+
+			// Reset Event
+			if (type === 'reset') {
+				const room = rooms.get(currentRoomId);
+				const player = room.find((p) => p.socket === socket);
+
+				// Set current player to ready
+				if (!player) {
+					return;
+				} else {
+					player.ready = true;
+				}
+
+				// Check if both players are ready
+				if (room.every((p) => p.ready)) {
+					let symbol = 'X';
+					const winningPlayer = room.find((p) => p.winner);
+
+					if (winningPlayer) {
+						symbol = winningPlayer.symbol;
+					}
+
+					room.forEach((p) => {
+						p.ready = false;
+						p.winner = false;
+
+						p.socket.send(
+							JSON.stringify({
+								type: 'reset',
+								payload: {
+									symbol
+								}
+							})
+						);
+					});
+				}
 			}
 
 			return;
