@@ -70,7 +70,7 @@ export const setupWebSocket = (server) => {
 				currentRoomId = roomId;
 				symbol = players.length === 1 ? 'O' : 'X';
 				players.push({
-					socket: socket,
+					socket,
 					symbol,
 					name: payload.name
 				});
@@ -89,6 +89,27 @@ export const setupWebSocket = (server) => {
 						);
 					});
 				}
+
+				return;
+			}
+
+			// Move Event
+			if (type === 'move') {
+				const { name, symbol, location } = payload;
+				const room = rooms.get(currentRoomId);
+
+				console.log(`${name} played ${symbol} in cell ${location}`);
+
+				room.forEach((player) => {
+					if (player.socket !== socket) {
+						player.socket.send(
+							JSON.stringify({
+								type,
+								payload
+							})
+						);
+					}
+				});
 
 				return;
 			}

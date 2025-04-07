@@ -5,9 +5,12 @@ const nameInput = document.getElementById('player-name');
 const confirmBtn = document.getElementById('confirm-name');
 const turnIndicatorDiv = document.getElementById('turn-indicator');
 const turnIndicatorSpan = document.getElementById('turn-indicator-text');
+const gameCells = document.querySelectorAll('.cell');
 
 let playerSymbol;
+let playerName;
 let currentTurn = 'X';
+let userPlay = false;
 
 confirmBtn.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -17,7 +20,7 @@ confirmBtn.addEventListener('click', (e) => {
 	if (!name) {
 		nameInput.focus();
 	} else {
-		// localStorage.setItem('player-name', name);
+		localStorage.setItem('player-name', name);
 
 		// Trigger fade-out
 		modalDiv.classList.add('fade-out');
@@ -79,6 +82,8 @@ socket.addEventListener('message', (event) => {
 
 	if (type === 'opponent_left') {
 		console.log('you are all alone');
+
+		return;
 	}
 
 	if (type === 'joined') {
@@ -91,22 +96,78 @@ socket.addEventListener('message', (event) => {
 			turnIndicatorSpan.textContent = 'Opponent';
 			turnIndicatorDiv.classList.add('red-text');
 		}
+
+		console.log(playerSymbol);
+
+		return;
 	}
 
 	if (type === 'start') {
 		console.log('game start');
+
+		if (playerSymbol === currentTurn) {
+			flipUserPlay();
+		}
+
+		return;
+	}
+
+	if (type === 'move') {
+		const targetCell = document.querySelector(
+			`[data-cell="${payload.location}"]`
+		);
+
+		// Update DOM and Enable User Play
+		flipCell(targetCell, payload.symbol);
+		flipUserPlay();
 	}
 });
 
-// document.querySelectorAll('.cell').forEach((cell) => {
-// 	cell.addEventListener('click', () => {
-// 		if (!cell.classList.contains('flipped')) {
-// 			const back = cell.querySelector('.cell-back');
-// 			back.textContent = Math.random() > 0.5 ? 'X' : 'O';
-// 			cell.classList.add('flipped');
-// 		}
-// 	});
-// });
+const flipUserPlay = () => {
+	userPlay = !userPlay;
+
+	gameCells.forEach((cell) => {
+		if (!cell.classList.contains('flipped')) {
+			const front = cell.querySelector('.cell-front');
+			if (userPlay) {
+				front.classList.add('active-cell');
+			} else {
+				front.classList.remove('active-cell');
+			}
+		}
+	});
+};
+
+const flipCell = (cell, symbol) => {
+	// Update DOM & Run Animation
+	const back = cell.querySelector('.cell-back');
+	back.textContent = symbol;
+	cell.classList.add('flipped');
+};
+
+gameCells.forEach((cell) => {
+	cell.addEventListener('click', () => {
+		if (!userPlay || cell.classList.contains('flipped')) {
+			return;
+		}
+
+		// Disable User Action & Update DOM
+		flipUserPlay();
+		flipCell(cell, playerSymbol);
+
+		// Send socket message
+		socket.send(
+			JSON.stringify({
+				type: 'move',
+				payload: {
+					name: playerName,
+					symbol: playerSymbol,
+					location: cell.getAttribute('data-cell')
+				}
+			})
+		);
+	});
+});
 
 // const createParticles = (x, y) => {
 // 	const container = document.body;

@@ -90,6 +90,7 @@ body.dark .modal input {
 }
 
 .cell-front,
+.active-cell,
 .cell-back {
     position: absolute;
     width: 100%;
@@ -108,9 +109,12 @@ body.dark .modal input {
     color: var(--text-color);
 }
 
+.active-cell {
+    cursor: pointer;
+}
+
 .cell-front {
     z-index: 2;
-    cursor: pointer;
 }
 
 .cell-back {
@@ -184,7 +188,7 @@ body.dark .modal input {
 }
 
 /* Pseudo Classes */
-.cell-front:hover {
+.active-cell:hover {
     background-color: #eaeaea;
     transition: background-color 0.2s ease;
 }
